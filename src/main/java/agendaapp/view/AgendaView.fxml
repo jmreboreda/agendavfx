@@ -46,7 +46,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <ListView fx:id="personWhoMeetPatternList" layoutX="-1.0" prefHeight="200.0" prefWidth="354.0" />
+                              <ListView fx:id="personWhoMeetPatternList" layoutX="-1.0" onMouseClicked="#onSelectPerson" prefHeight="200.0" prefWidth="354.0" />
                            </children></AnchorPane>
                     </content>
                   </ScrollPane>
@@ -59,7 +59,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <TableView prefHeight="282.0" prefWidth="365.0">
+                              <TableView fx:id="phonesTable" prefHeight="314.0" prefWidth="365.0">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="C1" />
                                   <TableColumn prefWidth="75.0" text="C2" />

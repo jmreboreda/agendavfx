@@ -1,4 +1,4 @@
-package agendaapp.mapper;
+package agendaapp.persistence.mapper;
 
 
 
@@ -81,8 +81,6 @@ public class PersonMapper {
         PhoneDTO phoneDTO = new PhoneDTO();
         phoneDTO.setId(phoneVO.getId());
         phoneDTO.setPhoneNumber(phoneVO.getPhoneNumber());
-        System.out.println("PhoneDTO -> id = " + phoneDTO.getId() + " phoneNumber = "
-        + phoneDTO.getPhoneNumber());
 
         return phoneDTO;
     }
