@@ -1,11 +1,18 @@
 package agendaapp.controller;
 
 
+import agendaapp.dto.PersonDTO;
+import agendaapp.manager.PersonManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 
 public class AgendaViewController {
@@ -14,23 +21,32 @@ public class AgendaViewController {
 
     @FXML
     private TextField tfPersonNamePattern;
+    @FXML
+    private ListView personWhoMeetPatternList;
 
 
     @FXML
-    public String onChangeInPersonNamePattern(final Event event){
+    public void onChangeInPersonNamePattern(){
 
         String patternLetters = tfPersonNamePattern.getText();
+        if(!patternLetters.isEmpty()) {
 
-        System.out.println(patternLettersa);
-
-        logger.info(patternLetters);
-
-        return patternLetters;
-
+            PersonManager manager = new PersonManager();
+            List<PersonDTO> personDTOList = manager.findAllFromNamePatternInAlphabeticalOrder(patternLetters);
+            ObservableList observablePersonDTOList = FXCollections.observableList(personDTOList);
+            personWhoMeetPatternList.setItems(observablePersonDTOList);
+        }
+        else{
+            personWhoMeetPatternList.getItems().clear();
+        }
     }
 
     public void onExit(){
 
+        System.exit(0);
+
     }
 
+    //final int selectedIdx = playerList.getSelectionModel().getSelectedIndex();
+    //String itemToRemove = playerList.getSelectionModel().getSelectedItem();
 }

@@ -11,6 +11,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" exported="" name="javax.persistence:javax.persistence-api:2.2" level="project" />
+    <orderEntry type="library" exported="" name="org.hibernate:hibernate-core:5.2.12.Final" level="project" />
+    <orderEntry type="library" exported="" name="org.postgresql:postgresql:9.4.1212.jre7" level="project" />
   </component>
 </module>
