@@ -61,8 +61,8 @@
                            <children>
                               <TableView fx:id="phonesTable" prefHeight="314.0" prefWidth="365.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="C1" />
-                                  <TableColumn prefWidth="75.0" text="C2" />
+                                  <TableColumn id="phoneNumber" fx:id="phoneNumberColumn" prefWidth="111.0" text="Teléfono" />
+                                  <TableColumn id="phoneType" fx:id="phoneTypeColumn" prefWidth="252.0" text="Tipo" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
