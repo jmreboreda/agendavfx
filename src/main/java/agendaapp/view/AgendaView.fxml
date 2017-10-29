@@ -24,7 +24,7 @@
                      <children>
                         <Button layoutX="147.0" layoutY="7.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Aceptar" textAlignment="CENTER" textFill="#2b5702" />
                         <Button cancelButton="true" layoutX="258.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#onExit" prefHeight="50.0" prefWidth="100.0" text="Salir" textAlignment="CENTER" textFill="#6b0202" />
-                        <Button layoutX="2.0" layoutY="7.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="129.0" text="Añadir persona" textAlignment="CENTER" textFill="#270897" />
+                        <Button fx:id="btAddPerson" layoutX="2.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#OnAddPerson" prefHeight="50.0" prefWidth="129.0" text="Añadir persona" textAlignment="CENTER" textFill="#270897" />
                      </children>
                   </Pane>
                   <Separator layoutX="14.0" layoutY="35.0" prefHeight="1.0" prefWidth="365.0" />
@@ -62,7 +62,7 @@
                               <TableView fx:id="phonesTable" prefHeight="314.0" prefWidth="365.0">
                                 <columns>
                                   <TableColumn id="phoneNumber" fx:id="phoneNumberColumn" prefWidth="111.0" text="Teléfono" />
-                                  <TableColumn id="phoneType" fx:id="phoneTypeColumn" prefWidth="252.0" text="Tipo" />
+                                  <TableColumn id="phoneType" fx:id="id" prefWidth="252.0" text="Tipo" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -8,14 +8,19 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Modality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javafx.stage.Stage;
 
+import javafx.scene.input.MouseEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +42,9 @@ public class AgendaViewController implements Initializable{
     @FXML
     private TableColumn<PhoneDTO, String> phoneNumberColumn;
     @FXML
-    private TableColumn<PhoneDTO, String> phoneTypeColumn;
+    private TableColumn<PhoneDTO, String> id;
+    @FXML
+    private Button btAddPerson;
 
 
     @Override
@@ -71,20 +78,37 @@ public class AgendaViewController implements Initializable{
             return;
         }
 
-        final int selectedIdx = personWhoMeetPatternList.getSelectionModel().getSelectedIndex();
-        final int selectedPersonId = personDTOList.get(selectedIdx).getId();
+        final int selectedListIdx = personWhoMeetPatternList.getSelectionModel().getSelectedIndex();
+        final int selectedPersonId = personDTOList.get(selectedListIdx).getId();
         List<PersonDTO> personDTOList = manager.findPersonById(selectedPersonId);
         List<PhoneDTO> phoneDTOList = new ArrayList<>();
         for(PhoneDTO phoneDTO : personDTOList.get(0).getPhoneDTOS()){
             phoneDTOList.add(phoneDTO);
         }
 
+
         ObservableList<PhoneDTO> phoneDTOObservableList = FXCollections.observableList(phoneDTOList);
+        for(PhoneDTO phDTO : phoneDTOObservableList) {
+
+            System.out.println("phoneDTOObservableList -> Id: " + phDTO.getId() + ", phoneNumber: " +phDTO.getPhoneNumber());
+        }
         phonesTable.setEditable(true);
-        phonesTable.getColumns().clear();
-        phonesTable.getColumns().addAll(phoneNumberColumn, phoneTypeColumn);
+        //phonesTable.getColumns().clear();
+        //phonesTable.getColumns().addAll(phoneNumberColumn, id);
         phonesTable.setItems(phoneDTOObservableList);
-        phonesTable.refresh();
+    }
+
+    public void OnAddPerson(MouseEvent event) throws IOException {
+
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(
+                AddPersonController.class.getResource("/agendaapp/view/AddPerson.fxml"));
+        stage.setScene(new Scene(root));
+        stage.setTitle("My modal window");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(
+                ((Node)event.getSource()).getScene().getWindow() );
+        stage.show();
     }
 
     public void onExit(){
