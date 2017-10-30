@@ -30,7 +30,7 @@ public class PersonVO implements Serializable {
     private String apellido1;
     private String apellido2;
     private String nombre;
-    private Set<PhoneVO> phoneVOS = new HashSet<>();
+    private Set<PhoneVO> phoneVOS;// = new HashSet<>();
 
     public PersonVO(){
 

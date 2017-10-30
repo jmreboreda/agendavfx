@@ -17,6 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -42,9 +43,11 @@ public class AgendaViewController implements Initializable{
     @FXML
     private TableView<PhoneDTO> phonesTable;
     @FXML
-    private TableColumn<PhoneDTO, String> phoneNumberColumn;
+    private TableColumn phoneNumberColumn;
+    //phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<PhoneDTO,String>("phoneNumber"))
     @FXML
-    private TableColumn<PhoneDTO, String> id;
+    private TableColumn idColumn;
+    //id.setCellValueFactory(new PropertyValueFactory<PhoneDTO,String>("id"))
     @FXML
     private javafx.scene.control.Button btAddPerson;
 
@@ -95,6 +98,7 @@ public class AgendaViewController implements Initializable{
         }
         phonesTable.setEditable(true);
         phonesTable.setItems(phoneDTOObservableList);
+
     }
 
     public void OnAddPerson(MouseEvent event){

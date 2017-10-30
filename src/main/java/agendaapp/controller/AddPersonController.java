@@ -49,27 +49,21 @@ public class AddPersonController {
                 .withPhones(phoneDTOS)
                 .build();
 
-        if(isNameDupicated(personDTO)){
+        if(isNameDupicate(personDTO)){
             System.out.println("Ya existe una persona con ese nombre");
             return;
         }
 
         Integer phoneId = existPhoneNumber(personDTO);
-        if(phoneId != null){
-            phoneDTOS.clear();
-            phoneDTO.setId(phoneId);
-            phoneDTO.setPhoneNumber(tfPhoneNumber.getText());
-            phoneDTOS.add(phoneDTO);
-            personDTO.setPhoneDTOS(phoneDTOS);
+        if(phoneId == null){
+            personCreate(personDTO);
+        }
+        else{
+            personCreateAndUpdate(personDTO, phoneId);
         }
 
-        Integer personId = manager.createPerson(personDTO);
-        System.out.println("Se ha creado una persona: \n"
-                + personDTO.toString() + " [id: " + personId + "]");
         clearFormData();
-}
-
-
+    }
 
     public void OnExit(){
 
@@ -84,7 +78,7 @@ public class AddPersonController {
         Validate.notBlank(tfPhoneNumber.getText(), "Teléfono no puede estar vacío");
     }
 
-    private Boolean isNameDupicated(PersonDTO personDTO){
+    private Boolean isNameDupicate(PersonDTO personDTO){
 
         Boolean isNameDuplicated = true;
 
@@ -107,6 +101,34 @@ public class AddPersonController {
         Integer phoneID = manager.findPhoneByPhoneNumber(phoneNumber);
 
         return phoneID;
+    }
+
+    public Integer personCreate(PersonDTO personDTO){
+
+        Integer personId = manager.createPerson(personDTO);
+        System.out.println("Se ha creado una persona: \n"
+                + personDTO.toString() + " [id: " + personId + "]");
+
+        return personId;
+    }
+
+    public void personCreateAndUpdate(PersonDTO personDTO, Integer phoneId) {
+
+        personDTO.getPhoneDTOS().clear();
+        Integer personId = personCreate(personDTO);
+        personDTO.setId(personId);
+
+        Set<PhoneDTO> phoneDTOS = new HashSet<>();
+        PhoneDTO phDTO = new PhoneDTO();
+        phDTO.setId(phoneId);
+        phDTO.setPhoneNumber(tfPhoneNumber.getText());
+        Set<PersonDTO> personDTOS = new HashSet<>();
+        personDTOS.add(personDTO);
+        phDTO.setPersonDTOS(personDTOS);
+        phoneDTOS.add(phDTO);
+        personDTO.setPhoneDTOS(phoneDTOS);
+
+        manager.addNewPhoneToPerson(personDTO);
     }
 
     public void clearFormData(){

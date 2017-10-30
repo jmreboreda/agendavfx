@@ -97,4 +97,15 @@ public class PersonManager {
 
         return phoneId;
     }
+
+    public Integer addNewPhoneToPerson(PersonDTO personDTO){
+
+        PersonVO personVO = mapper.proccesPersonDTOVO(personDTO);
+        PersonDAO personDAO = PersonDAO.PersonDAOFactory.getInstance();
+        PersonVO personVO1 = personDAO.addNewPhoneToPerson(personVO);
+
+        return personVO1.getId();
+
+
+    }
 }

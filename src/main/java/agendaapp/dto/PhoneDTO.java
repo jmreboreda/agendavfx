@@ -5,6 +5,8 @@
  */
 package agendaapp.dto;
 
+import java.util.Set;
+
 /**
  *
  * @author jmrb
@@ -17,6 +19,7 @@ public class PhoneDTO {
  
     private Integer id;
     private String phoneNumber;
+    private Set<PersonDTO> personDTOS;
 
     public Integer getId() {
         return id;
@@ -32,6 +35,14 @@ public class PhoneDTO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Set<PersonDTO> getPersonDTOS() {
+        return personDTOS;
+    }
+
+    public void setPersonDTOS(Set<PersonDTO> personDTOS) {
+        this.personDTOS = personDTOS;
     }
 
     @Override
