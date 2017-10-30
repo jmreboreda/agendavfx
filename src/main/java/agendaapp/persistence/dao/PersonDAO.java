@@ -54,7 +54,7 @@ public class PersonDAO {
 
         try {
             session.beginTransaction();
-            session.save(personVO);
+            session.saveOrUpdate(personVO);
             session.getTransaction().commit();
         }
         catch (org.hibernate.exception.ConstraintViolationException cve){
@@ -132,7 +132,7 @@ public class PersonDAO {
         return personVOList;
     }
 
-    public List<PersonVO> findAllPersonByNamePatternInAlphabeticalOrder(String nameLetters){
+    public List<PersonVO> findAllPersonFromNamePatternInAlphabeticalOrder(String nameLetters){
 
         Query query = session.createQuery(FIND_ALL_PERSON_BY_NAME_PATTERN_IN_ALPHABETICAL_ORDER);
         query.setParameter("code", "%" + nameLetters.toLowerCase() + "%");

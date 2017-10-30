@@ -13,14 +13,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javafx.stage.Stage;
 
-import javafx.scene.input.MouseEvent;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,7 @@ public class AgendaViewController implements Initializable{
     @FXML
     private TableColumn<PhoneDTO, String> id;
     @FXML
-    private Button btAddPerson;
+    private javafx.scene.control.Button btAddPerson;
 
 
     @Override
@@ -86,25 +88,29 @@ public class AgendaViewController implements Initializable{
             phoneDTOList.add(phoneDTO);
         }
 
-
         ObservableList<PhoneDTO> phoneDTOObservableList = FXCollections.observableList(phoneDTOList);
         for(PhoneDTO phDTO : phoneDTOObservableList) {
 
             System.out.println("phoneDTOObservableList -> Id: " + phDTO.getId() + ", phoneNumber: " +phDTO.getPhoneNumber());
         }
         phonesTable.setEditable(true);
-        //phonesTable.getColumns().clear();
-        //phonesTable.getColumns().addAll(phoneNumberColumn, id);
         phonesTable.setItems(phoneDTOObservableList);
     }
 
-    public void OnAddPerson(MouseEvent event) throws IOException {
+    public void OnAddPerson(MouseEvent event){
+
+        Parent root = null;
 
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(
-                AddPersonController.class.getResource("/agendaapp/view/AddPerson.fxml"));
+        try {
+                root = FXMLLoader.load(AddPersonController.class.getResource("/agendaapp/view/AddPerson.fxml"));
+        }
+        catch(Exception e){
+            System.out.println("Error");
+        }
+
         stage.setScene(new Scene(root));
-        stage.setTitle("My modal window");
+        stage.setTitle("Añadir persona a la agenda");
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(
                 ((Node)event.getSource()).getScene().getWindow() );

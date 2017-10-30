@@ -22,10 +22,9 @@ public class PersonManager {
     public List<PersonDTO> findAllFromNamePatternInAlphabeticalOrder(String namePattern) {
 
         List<PersonDTO> personDTOList = new ArrayList<>();
-        //PersonMapper mapper = new PersonMapper();
 
         PersonDAO personDAO = PersonDAO.PersonDAOFactory.getInstance();
-        List<PersonVO> personVOList = personDAO.findAllPersonByNamePatternInAlphabeticalOrder(namePattern);
+        List<PersonVO> personVOList = personDAO.findAllPersonFromNamePatternInAlphabeticalOrder(namePattern);
         for (PersonVO personVO : personVOList) {
             Set<PhoneDTO> phoneDTOS = new HashSet<>();
             for (PhoneVO phoneVO : personVO.getPhoneVOS()) {
@@ -71,5 +70,31 @@ public class PersonManager {
         }
 
         return personDTOList;
+    }
+
+    public Integer findPersonByStrictName(PersonDTO personDTO){
+
+        PersonVO personVO = mapper.proccesPersonDTOVO(personDTO);
+        PersonDAO personDAO = PersonDAO.PersonDAOFactory.getInstance();
+        Integer id = personDAO.findPersonByStrictName(personVO);
+
+        return id;
+    }
+
+    public Integer createPerson(PersonDTO personDTO){
+
+        PersonVO personVO = mapper.proccesPersonDTOVO(personDTO);
+        PersonDAO personDAO = PersonDAO.PersonDAOFactory.getInstance();
+        Integer id = personDAO.createPerson(personVO);
+
+        return id;
+    }
+
+    public Integer findPhoneByPhoneNumber(String phoneNumber){
+
+        PersonDAO personDAO = PersonDAO.PersonDAOFactory.getInstance();
+        Integer phoneId = personDAO.findPhoneByPhoneNumber(phoneNumber);
+
+        return phoneId;
     }
 }

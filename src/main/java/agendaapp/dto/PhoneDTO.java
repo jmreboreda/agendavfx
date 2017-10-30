@@ -34,4 +34,9 @@ public class PhoneDTO {
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
+    public String toString(){
+
+        return phoneNumber;
+    }
 }

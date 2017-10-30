@@ -99,5 +99,4 @@ public class PersonDTO {
             return new PersonDTO(this.id, this.apellido1, this.apellido2, this.nombre, this.phoneDTOS);
         }
     }
-
 }
