@@ -35,7 +35,6 @@ public class PersonMapper {
 
     }
 
-
     public PersonDTO proccessPersonVODTO(PersonVO personVO){
 
         Set<PhoneDTO> phoneDTOS = new HashSet<>();

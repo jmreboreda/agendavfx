@@ -1,5 +1,6 @@
 package agendaapp.controller;
 
+import agendaapp.bussiness.PersonCreator;
 import agendaapp.dto.PersonDTO;
 import agendaapp.dto.PhoneDTO;
 import agendaapp.manager.PersonManager;
@@ -29,10 +30,11 @@ public class AddPersonController {
     private PersonManager manager = new PersonManager();
 
 
-
     public void onCreatePerson(){
 
         validateNotEmptyData();
+
+        PersonCreator personCreator = new PersonCreator();
 
         Set<PhoneDTO> phoneDTOS = new HashSet<>();
 
@@ -49,17 +51,17 @@ public class AddPersonController {
                 .withPhones(phoneDTOS)
                 .build();
 
-        if(isNameDupicate(personDTO)){
+        if(personCreator.isNameDupicate(personDTO)){
             System.out.println("Ya existe una persona con ese nombre");
             return;
         }
 
-        Integer phoneId = existPhoneNumber(personDTO);
+        Integer phoneId = personCreator.existPhoneNumber(personDTO);
         if(phoneId == null){
-            personCreate(personDTO);
+            personCreator.personCreate(personDTO);
         }
         else{
-            personCreateAndUpdate(personDTO, phoneId);
+            personCreator.personCreateAndUpdate(personDTO, phoneId, tfPhoneNumber.getText());
         }
 
         clearFormData();
@@ -76,59 +78,6 @@ public class AddPersonController {
         Validate.notBlank(tfApellido2.getText(), "Apellido 2 no puede estar vacío");
         Validate.notBlank(tfNombre.getText(), "Nombre no puede estar vacío");
         Validate.notBlank(tfPhoneNumber.getText(), "Teléfono no puede estar vacío");
-    }
-
-    private Boolean isNameDupicate(PersonDTO personDTO){
-
-        Boolean isNameDuplicated = true;
-
-        Integer id = manager.findPersonByStrictName(personDTO);
-        if(id == null){
-            isNameDuplicated = false;
-        }
-
-        return isNameDuplicated;
-    }
-
-    public Integer existPhoneNumber(PersonDTO personDTO){
-
-        String phoneNumber = null;
-
-        for(PhoneDTO phoneDTO : personDTO.getPhoneDTOS()) {
-            phoneNumber = phoneDTO.getPhoneNumber();
-        }
-
-        Integer phoneID = manager.findPhoneByPhoneNumber(phoneNumber);
-
-        return phoneID;
-    }
-
-    public Integer personCreate(PersonDTO personDTO){
-
-        Integer personId = manager.createPerson(personDTO);
-        System.out.println("Se ha creado una persona: \n"
-                + personDTO.toString() + " [id: " + personId + "]");
-
-        return personId;
-    }
-
-    public void personCreateAndUpdate(PersonDTO personDTO, Integer phoneId) {
-
-        personDTO.getPhoneDTOS().clear();
-        Integer personId = personCreate(personDTO);
-        personDTO.setId(personId);
-
-        Set<PhoneDTO> phoneDTOS = new HashSet<>();
-        PhoneDTO phDTO = new PhoneDTO();
-        phDTO.setId(phoneId);
-        phDTO.setPhoneNumber(tfPhoneNumber.getText());
-        Set<PersonDTO> personDTOS = new HashSet<>();
-        personDTOS.add(personDTO);
-        phDTO.setPersonDTOS(personDTOS);
-        phoneDTOS.add(phDTO);
-        personDTO.setPhoneDTOS(phoneDTOS);
-
-        manager.addNewPhoneToPerson(personDTO);
     }
 
     public void clearFormData(){

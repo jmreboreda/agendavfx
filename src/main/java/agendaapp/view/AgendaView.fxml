@@ -23,9 +23,9 @@
                <children>
                   <Pane layoutX="25.0" layoutY="661.0" prefHeight="63.0" prefWidth="365.0">
                      <children>
-                        <Button layoutX="147.0" layoutY="7.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Aceptar" textAlignment="CENTER" textFill="#2b5702" />
-                        <Button cancelButton="true" layoutX="258.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#onExit" prefHeight="50.0" prefWidth="100.0" text="Salir" textAlignment="CENTER" textFill="#6b0202" />
-                        <Button fx:id="btAddPerson" layoutX="2.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#OnAddPerson" prefHeight="50.0" prefWidth="129.0" text="Añadir persona" textAlignment="CENTER" textFill="#270897" />
+                        <Button fx:id="btAddPhone" disable="true" layoutX="113.0" layoutY="7.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Añadir teléfono" textAlignment="CENTER" textFill="#2b5702" wrapText="true" />
+                        <Button cancelButton="true" layoutX="236.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#onExit" prefHeight="50.0" prefWidth="120.0" text="Salir" textAlignment="CENTER" textFill="#6b0202" />
+                        <Button fx:id="btAddPerson" layoutX="2.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#OnAddPerson" prefHeight="50.0" prefWidth="100.0" text="Añadir persona" textAlignment="CENTER" textFill="#270897" wrapText="true" />
                      </children>
                   </Pane>
                   <Separator layoutX="14.0" layoutY="35.0" prefHeight="1.0" prefWidth="365.0" />
