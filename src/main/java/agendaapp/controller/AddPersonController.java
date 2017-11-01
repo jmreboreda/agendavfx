@@ -2,8 +2,11 @@ package agendaapp.controller;
 
 import agendaapp.bussiness.person.PersonChecker;
 import agendaapp.bussiness.person.PersonSaver;
+import agendaapp.bussiness.phone.PhoneChecker;
 import agendaapp.dto.PersonDTO;
 import agendaapp.dto.PhoneDTO;
+import agendaapp.persistence.vo.PhoneVO;
+import agendaapp.utilities.MessageDialog;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -30,6 +33,7 @@ public class AddPersonController {
 
     private final PersonSaver personSaver = new PersonSaver();
     private final PersonChecker personChecker = new PersonChecker();
+    private final PhoneChecker phoneChecker = new PhoneChecker();
 
     public void onCreatePerson(){
 
@@ -50,7 +54,17 @@ public class AddPersonController {
                 .withPhones(phoneDTOS)
                 .build();
 
+        Boolean existPhoneNumber = phoneChecker.existsPhoneNumber(tfPhoneNumber.getText());
+        if(existPhoneNumber){
+//            phoneDTO.setId(existPhoneNumber.getId());
+//            phoneDTOS.clear();
+//            phoneDTOS.add(phoneDTO);
+        }
+
         personSaver.savePerson(personDTO);
+
+        MessageDialog message = new MessageDialog();
+        message.newPersonAdded(personDTO, tfPhoneNumber.getText());
 
         clearFormData();
     }

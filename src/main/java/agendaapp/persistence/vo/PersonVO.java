@@ -1,17 +1,6 @@
 package agendaapp.persistence.vo;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -87,6 +76,7 @@ public class PersonVO implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "PersonPhone", joinColumns = { @JoinColumn(name = "personId") }, inverseJoinColumns = { @JoinColumn(name = "phoneId") })
+//    @OneToMany(mappedBy = "person")
     public Set<PhoneVO> getPhoneVOS() {
         return phoneVOS;
     }

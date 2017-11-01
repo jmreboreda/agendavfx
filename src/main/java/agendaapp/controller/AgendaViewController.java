@@ -106,7 +106,7 @@ public class AgendaViewController implements Initializable{
         PersonDTO personDTO = personFinder.findPersonById(selectedPersonId);
 
         List<PhoneDTO> phoneDTOList = new ArrayList<>();
-        for(PhoneDTO phoneDTO : personDTOList.get(0).getPhoneDTOS()){
+        for(PhoneDTO phoneDTO : personDTO.getPhoneDTOS()){
             phoneDTOList.add(phoneDTO);
         }
 

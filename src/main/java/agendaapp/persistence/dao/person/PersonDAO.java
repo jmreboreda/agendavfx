@@ -40,5 +40,4 @@ public class PersonDAO extends BaseDAO<PersonVO,Integer> {
             return null;
         }
     }
-
 }
