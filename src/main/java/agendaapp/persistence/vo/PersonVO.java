@@ -28,7 +28,7 @@ import java.util.Set;
 				query = " select p from PersonVO as p " +
 						" where lower(p.apellido1) like lower(:code) " +
 						" or lower(p.apellido2) like lower(:code) " +
-						" or lower(p.nombre) like lower(:code) "+
+						" or lower(p.nombre) like lower(:code) " +
 						" order by p.apellido1, p.apellido2, p.nombre "
 		),
 		@NamedQuery(
