@@ -1,15 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package agendaapp.persistence.vo;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,28 +8,51 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
-@Table(name = "Person")
-//@NamedQueries({
-//    @NamedQuery(name ="", query = "")
-//})
+@Table(name = "Person", uniqueConstraints = {
+		@UniqueConstraint(
+				name = "UNIQUE_STRICT_NAME",
+				columnNames = {"NOMBRE", "APELLIDO1", "APELLIDO2"}
+		)
+})
+@NamedQueries({
+		@NamedQuery(
+				name = PersonVO.FIND_ALL_PERSON_BY_NAME_PATTERN_IN_ALPHABETICAL_ORDER,
+				query = " select p from PersonVO as p " +
+						" where lower(p.apellido1) like lower(:code) " +
+						" or lower(p.apellido2) like lower(:code) " +
+						" or lower(p.nombre) like lower(:code) "+
+						" order by p.apellido1, p.apellido2, p.nombre "
+		),
+		@NamedQuery(
+				name = PersonVO.FIND_PERSON_BY_STRICT_NAME,
+				query = " select p from PersonVO as p " +
+						" where p.apellido1 = :apellido1 " +
+						" and p.apellido2 = :apellido2 " +
+						" and p.nombre = :nombre"
+		)
+})
 public class PersonVO implements Serializable {
 
-    private Integer id;
+	public static final String FIND_ALL_PERSON_BY_NAME_PATTERN_IN_ALPHABETICAL_ORDER = "PersonVO.FIND_ALL_PERSON_BY_NAME_PATTERN_IN_ALPHABETICAL_ORDER";
+
+	public static final String FIND_PERSON_BY_STRICT_NAME = "PersonVO.FIND_PERSON_BY_STRICT_NAME";
+
+	private Integer id;
     private String apellido1;
     private String apellido2;
     private String nombre;
-    private Set<PhoneVO> phoneVOS;// = new HashSet<>();
-
-    public PersonVO(){
-
-    }
+    private Set<PhoneVO> phoneVOS;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     public Integer getId() {
         return id;
     }
@@ -82,7 +96,6 @@ public class PersonVO implements Serializable {
 
     @Override
     public String toString(){
-
         return apellido1 + " " + apellido2 + ", " + nombre;
     }
 

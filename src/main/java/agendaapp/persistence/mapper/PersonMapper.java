@@ -1,7 +1,5 @@
 package agendaapp.persistence.mapper;
 
-
-
 import agendaapp.persistence.vo.PersonVO;
 import agendaapp.persistence.vo.PhoneVO;
 import agendaapp.dto.PersonDTO;
@@ -12,15 +10,11 @@ import java.util.Set;
 
 public class PersonMapper {
 
-
-    public PersonMapper() {
-    }
-
-    public PersonVO proccesPersonDTOVO(PersonDTO personDTO){
+    public static PersonVO mapToVO(PersonDTO personDTO){
 
         Set<PhoneVO> phoneVOS = new HashSet<>();
         for(PhoneDTO phoneDTO : personDTO.getPhoneDTOS()){
-            PhoneVO phoneVO = proccessPhoneDTOVO(phoneDTO);
+            PhoneVO phoneVO = PhoneMapper.mapToVO(phoneDTO);
             phoneVOS.add(phoneVO);
         }
 
@@ -35,7 +29,7 @@ public class PersonMapper {
 
     }
 
-    public PersonDTO proccessPersonVODTO(PersonVO personVO){
+    public static PersonDTO mapToDTO(PersonVO personVO){
 
         Set<PhoneDTO> phoneDTOS = new HashSet<>();
 
@@ -55,33 +49,6 @@ public class PersonMapper {
         personDTO.setPhoneDTOS(phoneDTOS);
 
         return personDTO;
-    }
-
-    public PersonVO proccessIdToVO(Integer personId){
-
-        PersonVO personVO = new PersonVO();
-        personVO.setId(personId);
-
-        return personVO;
-
-    }
-
-    public PhoneVO proccessPhoneDTOVO(PhoneDTO phoneDTO){
-
-        PhoneVO phoneVO = new PhoneVO();
-        phoneVO.setId(phoneDTO.getId());
-        phoneVO.setPhoneNumber(phoneDTO.getPhoneNumber());
-
-        return phoneVO;
-    }
-
-    public PhoneDTO proccessPhoneVODTO(PhoneVO phoneVO){
-
-        PhoneDTO phoneDTO = new PhoneDTO();
-        phoneDTO.setId(phoneVO.getId());
-        phoneDTO.setPhoneNumber(phoneVO.getPhoneNumber());
-
-        return phoneDTO;
     }
 
 }

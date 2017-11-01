@@ -1,25 +1,28 @@
 package agendaapp.controller;
 
 
-import agendaapp.bussiness.PersonCreator;
+import agendaapp.bussiness.person.PersonFinder;
 import agendaapp.dto.PersonDTO;
 import agendaapp.dto.PhoneDTO;
-import agendaapp.manager.PersonManager;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,8 +38,10 @@ import java.util.ResourceBundle;
 public class AgendaViewController implements Initializable{
 
     private static final Logger logger = LoggerFactory.getLogger(AgendaViewController.class);
+
     private List<PersonDTO> personDTOList;
-    PersonManager manager = new PersonManager();
+
+    private PersonFinder personFinder = new PersonFinder();
 
     @FXML
     private TextField tfPersonNamePattern;
@@ -59,7 +64,6 @@ public class AgendaViewController implements Initializable{
     final MenuItem itemAddPhone = new MenuItem("Añadir teléfono");
     final MenuItem itemDeletePhone = new MenuItem("Eliminar teléfono");
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(new Runnable() {
@@ -74,13 +78,14 @@ public class AgendaViewController implements Initializable{
 
         String patternLetters = tfPersonNamePattern.getText();
         if(!patternLetters.isEmpty()) {
-            personDTOList = manager.findAllFromNamePatternInAlphabeticalOrder(patternLetters);
+            personDTOList = personFinder.findAllFromNamePatternInAlphabeticalOrder(patternLetters);
             ObservableList observablePersonDTOList = FXCollections.observableList(personDTOList);
             personWhoMeetPatternList.setItems(observablePersonDTOList);
         }
         else{
             personWhoMeetPatternList.getItems().clear();
             ObservableList rowsInTable = phonesTable.getItems();
+            // CACA DE LA VACA => forEach
             for(int i = 0; i < rowsInTable.size(); ++i){
                 phonesTable.getItems().remove(0);
             }
@@ -94,9 +99,12 @@ public class AgendaViewController implements Initializable{
             return;
         }
 
+        //TODO eso se puede hacer mejor
         final int selectedListIdx = personWhoMeetPatternList.getSelectionModel().getSelectedIndex();
         final int selectedPersonId = personDTOList.get(selectedListIdx).getId();
-        List<PersonDTO> personDTOList = manager.findPersonById(selectedPersonId);
+
+        PersonDTO personDTO = personFinder.findPersonById(selectedPersonId);
+
         List<PhoneDTO> phoneDTOList = new ArrayList<>();
         for(PhoneDTO phoneDTO : personDTOList.get(0).getPhoneDTOS()){
             phoneDTOList.add(phoneDTO);
@@ -106,6 +114,7 @@ public class AgendaViewController implements Initializable{
         for(PhoneDTO phDTO : phoneDTOObservableList) {
 
         }
+
         phonesTable.setEditable(true);
         phonesTable.setItems(phoneDTOObservableList);
 
@@ -154,24 +163,11 @@ public class AgendaViewController implements Initializable{
     }
 
 
-
-
-
-//        final int selectedListIdx = personWhoMeetPatternList.getSelectionModel().getSelectedIndex();
-//        final int selectedPersonId = personDTOList.get(selectedListIdx).getId();
-//        List<PersonDTO> personDTOList = manager.findPersonById(selectedPersonId);
-//
-//        PersonCreator personCreator = new PersonCreator();
-//        personCreator.
-
-
-
     public void onDeletePersonsPhone(){
 
     }
 
     public void onExit(){
-
         System.exit(0);
     }
 }
