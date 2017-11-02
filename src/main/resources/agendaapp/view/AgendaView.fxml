@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="732.0" prefWidth="399.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agendaapp.controller.AgendaViewController">
+  <children>
+      <BorderPane VBox.vgrow="ALWAYS">
+         <center>
+          <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="732.0" prefWidth="349.0">
+               <children>
+                  <Pane layoutX="25.0" layoutY="661.0" prefHeight="63.0" prefWidth="365.0">
+                     <children>
+                        <Button fx:id="btAddPhone" disable="true" layoutX="113.0" layoutY="7.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Añadir teléfono" textAlignment="CENTER" textFill="#2b5702" wrapText="true" />
+                        <Button cancelButton="true" layoutX="236.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#onExit" prefHeight="50.0" prefWidth="120.0" text="Salir" textAlignment="CENTER" textFill="#6b0202" />
+                        <Button fx:id="btAddPerson" layoutX="2.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#OnAddPerson" prefHeight="50.0" prefWidth="100.0" text="Añadir persona" textAlignment="CENTER" textFill="#270897" wrapText="true" />
+                     </children>
+                  </Pane>
+                  <Separator layoutX="14.0" layoutY="35.0" prefHeight="1.0" prefWidth="365.0" />
+                  <Separator layoutX="17.0" layoutY="99.0" prefHeight="1.0" prefWidth="365.0" />
+                  <Label layoutX="14.0" layoutY="38.0" text="Búsqueda de personas por patrón">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <TextField id="tfPersonNamePattern" fx:id="tfPersonNamePattern" layoutX="17.0" layoutY="64.0" onKeyReleased="#onChangeInPersonNamePattern" prefHeight="26.0" prefWidth="365.0" promptText="Teclee el patrón de búsqueda" />
+                  <Separator layoutX="17.0" layoutY="645.0" prefHeight="1.0" prefWidth="365.0" />
+                  <Label layoutX="14.0" layoutY="103.0" text="Personas que coinciden con el patrón">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="17.0" layoutY="331.0" prefHeight="1.0" prefWidth="365.0" />
+                  <Label layoutX="18.0" layoutY="334.0" text="Teléfono(s) de la persona seleccionada">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <ScrollPane layoutX="16.0" layoutY="356.0" prefHeight="282.0" prefWidth="365.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="phonesTable" prefHeight="314.0" prefWidth="365.0">
+                                <columns>
+                                  <TableColumn editable="false" prefWidth="111.0" text="Teléfono">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="phoneNumber" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                  <TableColumn prefWidth="252.0" text="Tipo">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="id" />
+                                    </cellValueFactory>
+                                  </TableColumn>
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <ListView fx:id="personWhoMeetPatternList" layoutX="15.0" layoutY="123.0" onMouseClicked="#onSelectPerson" prefHeight="200.0" prefWidth="365.0" />
+               </children>
+          </AnchorPane>
+         </center>
+      </BorderPane>
+  </children>
+</VBox>

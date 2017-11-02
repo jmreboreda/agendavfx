@@ -1,12 +1,16 @@
 package agendaapp.controller;
 
-import agendaapp.bussiness.PersonCreator;
+import agendaapp.bussiness.person.PersonChecker;
+import agendaapp.bussiness.person.PersonSaver;
+import agendaapp.bussiness.phone.PhoneChecker;
 import agendaapp.dto.PersonDTO;
 import agendaapp.dto.PhoneDTO;
-import agendaapp.manager.PersonManager;
+import agendaapp.persistence.vo.PhoneVO;
+import agendaapp.utilities.MessageDialog;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.scene.control.*;
 import org.apache.commons.lang3.Validate;
 
 import java.util.HashSet;
@@ -27,14 +31,13 @@ public class AddPersonController {
     @FXML
     private Button btSalir;
 
-    private PersonManager manager = new PersonManager();
-
+    private final PersonSaver personSaver = new PersonSaver();
+    private final PersonChecker personChecker = new PersonChecker();
+    private final PhoneChecker phoneChecker = new PhoneChecker();
 
     public void onCreatePerson(){
 
         validateNotEmptyData();
-
-        PersonCreator personCreator = new PersonCreator();
 
         Set<PhoneDTO> phoneDTOS = new HashSet<>();
 
@@ -51,24 +54,22 @@ public class AddPersonController {
                 .withPhones(phoneDTOS)
                 .build();
 
-        if(personCreator.isNameDupicate(personDTO)){
-            System.out.println("Ya existe una persona con ese nombre");
-            return;
+        Boolean existPhoneNumber = phoneChecker.existsPhoneNumber(tfPhoneNumber.getText());
+        if(existPhoneNumber){
+//            phoneDTO.setId(existPhoneNumber.getId());
+//            phoneDTOS.clear();
+//            phoneDTOS.add(phoneDTO);
         }
 
-        Integer phoneId = personCreator.existPhoneNumber(personDTO);
-        if(phoneId == null){
-            personCreator.personCreate(personDTO);
-        }
-        else{
-            personCreator.personCreateAndUpdate(personDTO, phoneId, tfPhoneNumber.getText());
-        }
+        personSaver.savePerson(personDTO);
+
+        MessageDialog message = new MessageDialog();
+        message.newPersonAdded(personDTO, tfPhoneNumber.getText());
 
         clearFormData();
     }
 
     public void OnExit(){
-
         Stage stage = (Stage) btSalir.getScene().getWindow();
         stage.close();
     }
@@ -81,7 +82,6 @@ public class AddPersonController {
     }
 
     public void clearFormData(){
-
         tfApellido1.clear();
         tfApellido2.clear();
         tfNombre.clear();

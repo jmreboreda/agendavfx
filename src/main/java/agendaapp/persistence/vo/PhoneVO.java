@@ -1,31 +1,42 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package agendaapp.persistence.vo;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Entity
-@Table(name = "Phone")
+@Table(name = "Phone", uniqueConstraints = {
+        @UniqueConstraint(
+                name = "UNIQUE_PHONE_NUMBER",
+                columnNames = {"PHONENUMBER"}
+        )
+})
+@NamedQueries({
+        @NamedQuery(
+                name = PhoneVO.FIND_PHONE_BY_PHONE_NUMBER,
+                query = " select p from PhoneVO as p " +
+                        " where p.phoneNumber = :phoneNumber "
+        )
+})
 public class PhoneVO implements Serializable {
     
     private Integer id;
     private String phoneNumber;
     private Set<PersonVO> personVOS = new HashSet<>();
 
-    public static String FIND_PHONE_BY_PHONE_NUMBER = "FROM PhoneVO WHERE phoneNUmber = :phoneNumber";
-    public static final String FIND_PHONE_BY_ID = "FROM PhoneVO WHERE id = :code ";
-    
-    public PhoneVO() {
- 
-	}
-    
+    public static final String FIND_PHONE_BY_PHONE_NUMBER = "PhoneVO.FIND_PHONE_BY_PHONE_NUMBER";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
