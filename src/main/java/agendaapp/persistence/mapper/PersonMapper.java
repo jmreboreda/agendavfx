@@ -20,6 +20,7 @@ public class PersonMapper {
         Set<PhoneVO> phoneVOS = new HashSet<>();
         for(PhoneDTO phoneDTO : personDTO.getPhoneDTOS()){
             final PhoneVO phoneVO = PhoneMapper.mapToVO(phoneDTO);
+            phoneVO.setPersonVO(personVO);
             phoneVOS.add(phoneVO);
         }
 
