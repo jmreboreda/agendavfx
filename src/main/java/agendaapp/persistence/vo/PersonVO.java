@@ -1,5 +1,6 @@
 package agendaapp.persistence.vo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -50,7 +51,7 @@ public class PersonVO implements Serializable {
     private String apellido1;
     private String apellido2;
     private String nombre;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "personVO")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "personVO", cascade = CascadeType.ALL)
     private Set<PhoneVO> phoneVOS;
 
     public Integer getId() {
