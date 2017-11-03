@@ -2,6 +2,7 @@ package agendaapp.controller;
 
 
 import agendaapp.bussiness.person.PersonFinder;
+import agendaapp.bussiness.phone.PhoneFinder;
 import agendaapp.dto.PersonDTO;
 import agendaapp.dto.PhoneDTO;
 import javafx.application.Platform;
@@ -33,6 +34,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 
 public class AgendaViewController implements Initializable{
@@ -53,10 +55,8 @@ public class AgendaViewController implements Initializable{
     private TableView<PhoneDTO> phonesTable;
     @FXML
     private TableColumn phoneNumberColumn;
-    //phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<PhoneDTO,String>("phoneNumber"))
     @FXML
     private TableColumn idColumn;
-    //id.setCellValueFactory(new PropertyValueFactory<PhoneDTO,String>("id"))
     @FXML
     private javafx.scene.control.Button btAddPerson;
 
@@ -103,6 +103,7 @@ public class AgendaViewController implements Initializable{
         final int selectedListIdx = personWhoMeetPatternList.getSelectionModel().getSelectedIndex();
         final int selectedPersonId = personDTOList.get(selectedListIdx).getId();
 
+        PersonFinder personFinder = new PersonFinder();
         PersonDTO personDTO = personFinder.findPersonById(selectedPersonId);
 
         List<PhoneDTO> phoneDTOList = new ArrayList<>();

@@ -37,7 +37,7 @@ public class BaseDAO<E, PK extends Serializable> {
 	}
 
 	public void delete(E entity) {
-		session.beginTransaction().commit();
+		session.beginTransaction();
 		session.delete(entity);
 		session.getTransaction().commit();
 	}

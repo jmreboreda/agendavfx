@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "Person", uniqueConstraints = {
+@Table(name = "person", uniqueConstraints = {
 		@UniqueConstraint(
 				name = "UNIQUE_STRICT_NAME",
 				columnNames = {"NOMBRE", "APELLIDO1", "APELLIDO2"}
@@ -26,7 +26,12 @@ import java.util.Set;
 						" where p.apellido1 = :apellido1 " +
 						" and p.apellido2 = :apellido2 " +
 						" and p.nombre = :nombre"
-		)
+		),
+        @NamedQuery(
+                name = PersonVO.FIND_PHONES_BY_PERSONID,
+                query = " select p from PersonVO as p " +
+                        " where p.id = :personId "
+        )
 })
 public class PersonVO implements Serializable {
 
@@ -34,14 +39,17 @@ public class PersonVO implements Serializable {
 
 	public static final String FIND_PERSON_BY_STRICT_NAME = "PersonVO.FIND_PERSON_BY_STRICT_NAME";
 
-	private Integer id;
+    public static final String FIND_PHONES_BY_PERSONID = "PersonVO.FIND_PHONES_BY_PERSONID";
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+    private Integer id;
     private String apellido1;
     private String apellido2;
     private String nombre;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "personVO")
     private Set<PhoneVO> phoneVOS;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -74,9 +82,6 @@ public class PersonVO implements Serializable {
         this.nombre = nombre;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "PersonPhone", joinColumns = { @JoinColumn(name = "personId") }, inverseJoinColumns = { @JoinColumn(name = "phoneId") })
-//    @OneToMany(mappedBy = "person")
     public Set<PhoneVO> getPhoneVOS() {
         return phoneVOS;
     }

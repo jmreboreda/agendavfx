@@ -33,4 +33,5 @@ public class PersonFinder {
 		final PersonVO personByStrictName = personDAO.findPersonByStrictName(personDTO.getNombre(), personDTO.getApellido1(), personDTO.getApellido2());
 		return PersonMapper.mapToDTO(personByStrictName);
 	}
+
 }

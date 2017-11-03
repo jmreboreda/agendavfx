@@ -2,10 +2,10 @@ package agendaapp.controller;
 
 import agendaapp.bussiness.person.PersonChecker;
 import agendaapp.bussiness.person.PersonSaver;
+import agendaapp.bussiness.person.exceptions.PersonAlreadyExistsException;
 import agendaapp.bussiness.phone.PhoneChecker;
 import agendaapp.dto.PersonDTO;
 import agendaapp.dto.PhoneDTO;
-import agendaapp.persistence.vo.PhoneVO;
 import agendaapp.utilities.MessageDialog;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.Validate;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,34 +40,46 @@ public class AddPersonController {
 
         validateNotEmptyData();
 
-        Set<PhoneDTO> phoneDTOS = new HashSet<>();
+        final PersonDTO personDTO = retrievePersonDTO();
 
-        PhoneDTO phoneDTO = new PhoneDTO();
-        phoneDTO.setId(null);
-        phoneDTO.setPhoneNumber(tfPhoneNumber.getText());
-        phoneDTOS.add(phoneDTO);
+        try {
+            personSaver.savePerson(personDTO);
+//            MessageDialog message = new MessageDialog();
+//            message.newPersonAdded(personDTO, phoneNumber);
+            clearFormData();
 
-        PersonDTO personDTO = PersonDTO.create()
-                .withId(null)
-                .withApellido1(tfApellido1.getText())
-                .withApellido2(tfApellido2.getText())
-                .withNombre(tfNombre.getText())
-                .withPhones(phoneDTOS)
-                .build();
+        } catch (PersonAlreadyExistsException e) {
+            // Así funcionan las excepciones, el saver te informa de que no ha podido
+            // crear la persona por una razón concreta, así que ahora desde el controller
+            // puedes avisar al usuario con una ventanita o lo que quieras
 
-        Boolean existPhoneNumber = phoneChecker.existsPhoneNumber(tfPhoneNumber.getText());
-        if(existPhoneNumber){
-//            phoneDTO.setId(existPhoneNumber.getId());
-//            phoneDTOS.clear();
-//            phoneDTOS.add(phoneDTO);
+            // Puedes crear en el MessageDialog un errorMessage o algo así, con un iconito
+            // de alerta o alguna chorrada
         }
 
-        personSaver.savePerson(personDTO);
 
-        MessageDialog message = new MessageDialog();
-        message.newPersonAdded(personDTO, tfPhoneNumber.getText());
 
-        clearFormData();
+    }
+
+    private PersonDTO retrievePersonDTO() {
+        String phoneNumber = tfPhoneNumber.getText();
+        String apellido1 = tfApellido1.getText();
+        String apellido2 = tfApellido2.getText();
+        String nombre = tfNombre.getText();
+
+        final Set<PhoneDTO> phones = new HashSet<>();
+        final PhoneDTO phoneDTO = PhoneDTO.create()
+                .withPhoneNumber(phoneNumber)
+                .build();
+
+        phones.add(phoneDTO);
+
+        return PersonDTO.create()
+                .withNombre(nombre)
+                .withApellido1(apellido1)
+                .withApellido1(apellido2)
+                .withPhones(phones)
+                .build();
     }
 
     public void OnExit(){
@@ -75,6 +88,12 @@ public class AddPersonController {
     }
 
     private void validateNotEmptyData() {
+        //Las validaciones de apache commons lanzan IllegalArgumentException,
+        // si haces esto tu apli petará por detrás y el user no se enterará
+
+        // Podrías capturar el IllegalArgumentException pero en controller yo creo
+        // que es mejor que compruebes a manija si los campos son válidos para
+        // mandárselos al saver, y si no lo son muestras una ventanita de error
         Validate.notBlank(tfApellido1.getText(), "Apellido 1 no puede estar vacío");
         Validate.notBlank(tfApellido2.getText(), "Apellido 2 no puede estar vacío");
         Validate.notBlank(tfNombre.getText(), "Nombre no puede estar vacío");

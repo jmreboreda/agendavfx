@@ -7,6 +7,7 @@ import agendaapp.persistence.vo.PersonVO;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Set;
 
 
 public class PersonDAO extends BaseDAO<PersonVO,Integer> {
@@ -37,6 +38,17 @@ public class PersonDAO extends BaseDAO<PersonVO,Integer> {
         try {
             return (PersonVO) query.getSingleResult();
         } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public PersonVO findPhonesByPersonId(Integer personId){
+        final Query query = session.getNamedQuery(PersonVO.FIND_PHONES_BY_PERSONID)
+                .setParameter("personId", personId);
+
+        try {
+            return (PersonVO) query.getSingleResult();
+        }catch(NoResultException e){
             return null;
         }
     }

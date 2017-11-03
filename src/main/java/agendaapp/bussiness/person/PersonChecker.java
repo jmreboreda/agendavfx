@@ -11,7 +11,7 @@ public class PersonChecker {
 	private final PersonDAO personDAO = DAOFactory.getPersonDAO();
 
 	public boolean existsWithSameCompleteName(PersonDTO personDTO) {
-		Validate.notNull(personDTO, "personDRO cannot be null");
+		Validate.notNull(personDTO, "personDTO cannot be null");
 		final PersonVO personVO = personDAO.findPersonByStrictName(personDTO.getNombre(), personDTO.getApellido1(), personDTO.getApellido2());
 		return personVO != null;
 	}

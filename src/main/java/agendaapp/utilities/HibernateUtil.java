@@ -1,6 +1,7 @@
 package agendaapp.utilities;
 
 
+import agendaapp.persistence.vo.PersonVO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -13,6 +14,11 @@ public class HibernateUtil {
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             sessionFactory = new Configuration().configure().buildSessionFactory();
+//            Configuration configuration = new Configuration();
+//            configuration.addAnnotatedClass(PersonVO.class);
+//            configuration.configure();
+//            sessionFactory = configuration.buildSessionFactory();
+
         }
          
         return sessionFactory;

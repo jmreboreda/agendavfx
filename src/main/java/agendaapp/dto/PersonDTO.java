@@ -49,10 +49,10 @@ public class PersonDTO {
         return phoneDTOS;
     }
 
-    public void setPhoneDTOS(Set<PhoneDTO> phoneDTOS) {
+    public void setPhoneDTO(Set<PhoneDTO> phoneDTOS) {
         this.phoneDTOS = phoneDTOS;
     }
-    
+
     @Override
     public String toString() {
         return getApellido1() + " " + getApellido2() + ", " + getNombre();
@@ -68,7 +68,7 @@ public class PersonDTO {
         private String apellido1;
         private String apellido2;
         private String nombre;
-        private Set<PhoneDTO> phoneDTOS = new HashSet<>();
+        private Set<PhoneDTO> phoneDTOS;
 
         public PersonDTO.PersonBuilder withId(Integer id) {
             this.id = id;
@@ -90,8 +90,8 @@ public class PersonDTO {
             return this;
         }
 
-        public PersonDTO.PersonBuilder withPhones(Set<PhoneDTO> phoneDTOs) {
-            this.phoneDTOS = phoneDTOs;
+        public PersonDTO.PersonBuilder withPhones(Set<PhoneDTO> phoneDTOS) {
+            this.phoneDTOS = phoneDTOS;
             return this;
         }
 
