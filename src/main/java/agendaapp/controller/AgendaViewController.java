@@ -2,7 +2,6 @@ package agendaapp.controller;
 
 
 import agendaapp.bussiness.person.PersonFinder;
-import agendaapp.bussiness.phone.PhoneFinder;
 import agendaapp.dto.PersonDTO;
 import agendaapp.dto.PhoneDTO;
 import javafx.application.Platform;
@@ -27,19 +26,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 
 public class AgendaViewController implements Initializable{
-
-    private static final Logger logger = LoggerFactory.getLogger(AgendaViewController.class);
 
     private List<PersonDTO> personDTOList;
 
@@ -48,7 +42,7 @@ public class AgendaViewController implements Initializable{
     @FXML
     private TextField tfPersonNamePattern;
     @FXML
-    private ListView personWhoMeetPatternList;
+    private ListView personWhoMeetPatternList;//Importante!! parametriza el listView ListView<Whatever>
     @FXML
     private Button btAddPhone;
     @FXML
@@ -79,13 +73,14 @@ public class AgendaViewController implements Initializable{
         String patternLetters = tfPersonNamePattern.getText();
         if(!patternLetters.isEmpty()) {
             personDTOList = personFinder.findAllFromNamePatternInAlphabeticalOrder(patternLetters);
-            ObservableList observablePersonDTOList = FXCollections.observableList(personDTOList);
-            personWhoMeetPatternList.setItems(observablePersonDTOList);
+            personWhoMeetPatternList.setItems(FXCollections.observableList(personDTOList));
         }
         else{
             personWhoMeetPatternList.getItems().clear();
             ObservableList rowsInTable = phonesTable.getItems();
             // CACA DE LA VACA => forEach
+            //edit: no sólo es caca de la vaca, sino que estás borrando una lista iterándola!!
+            // para eso tienes clear()
             for(int i = 0; i < rowsInTable.size(); ++i){
                 phonesTable.getItems().remove(0);
             }
@@ -123,6 +118,7 @@ public class AgendaViewController implements Initializable{
         btAddPhone.disableProperty().bind(booleanBind);
     }
 
+    //TODO cambiar este callBack para que empiece en lowecase
     public void OnAddPerson(MouseEvent event){
 
         Parent root = null;

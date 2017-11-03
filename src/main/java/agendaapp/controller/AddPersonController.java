@@ -77,7 +77,7 @@ public class AddPersonController {
         return PersonDTO.create()
                 .withNombre(nombre)
                 .withApellido1(apellido1)
-                .withApellido1(apellido2)
+                .withApellido2(apellido2)
                 .withPhones(phones)
                 .build();
     }

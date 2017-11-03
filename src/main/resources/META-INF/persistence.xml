@@ -5,9 +5,6 @@
 
     <persistence-unit name="agendaapp">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-<!--
-        <jta-data-source>java:/DefaultDS</jta-data-source>
--->
         <class>agendaapp.persistence.vo.PersonVO</class>
         <class>agendaapp.persistence.vo.PhoneVO</class>
         <properties>
