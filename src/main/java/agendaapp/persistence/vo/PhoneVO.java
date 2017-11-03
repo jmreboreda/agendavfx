@@ -1,11 +1,20 @@
 package agendaapp.persistence.vo;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 
 @Entity
-@Table(name = "phone")
+@Table(name = "PHONE")
 @NamedQueries({
         @NamedQuery(
                 name = PhoneVO.FIND_PHONE_BY_PHONE_NUMBER,

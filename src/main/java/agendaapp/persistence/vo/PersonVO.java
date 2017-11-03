@@ -1,16 +1,20 @@
 package agendaapp.persistence.vo;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "person", uniqueConstraints = {
-		@UniqueConstraint(
-				name = "UNIQUE_STRICT_NAME",
-				columnNames = {"NOMBRE", "APELLIDO1", "APELLIDO2"}
-		)
-})
+@Table(name = "PERSON", uniqueConstraints = {@UniqueConstraint(columnNames = {"NOMBRE", "APELLIDO1", "APELLIDO2"})})
 @NamedQueries({
 		@NamedQuery(
 				name = PersonVO.FIND_ALL_PERSON_BY_NAME_PATTERN_IN_ALPHABETICAL_ORDER,
@@ -42,7 +46,6 @@ public class PersonVO implements Serializable {
     public static final String FIND_PHONES_BY_PERSONID = "PersonVO.FIND_PHONES_BY_PERSONID";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
     private Integer id;
     private String apellido1;
     private String apellido2;
